@@ -1,12 +1,7 @@
-import java.util.HashMap;
-
-/**
- * Book My Stay App
- * Combined Use Cases 1, 2, 3
- */
+import java.util.*;
 
 // =======================
-// UC2: ROOM MODEL
+// ROOM MODEL (UC2)
 // =======================
 abstract class Room {
     protected String roomType;
@@ -51,7 +46,7 @@ class SuiteRoom extends Room {
 }
 
 // =======================
-// UC3: INVENTORY SYSTEM
+// INVENTORY (UC3)
 // =======================
 class RoomInventory {
 
@@ -73,7 +68,7 @@ class RoomInventory {
     }
 
     public void displayInventory() {
-        System.out.println("\n===== ROOM INVENTORY =====");
+        System.out.println("\n===== INVENTORY =====");
         for (String key : inventory.keySet()) {
             System.out.println(key + " -> " + inventory.get(key));
         }
@@ -81,7 +76,24 @@ class RoomInventory {
 }
 
 // =======================
-// MAIN CLASS (UC1 ENTRY POINT)
+// UC5: RESERVATION MODEL
+// =======================
+class Reservation {
+    String customerName;
+    String roomType;
+
+    public Reservation(String customerName, String roomType) {
+        this.customerName = customerName;
+        this.roomType = roomType;
+    }
+
+    public String toString() {
+        return customerName + " requested " + roomType;
+    }
+}
+
+// =======================
+// MAIN CLASS
 // =======================
 public class BookMyStay {
 
@@ -107,10 +119,9 @@ public class BookMyStay {
     }
 
     // UC3
-    public static void useCase3() {
+    public static void useCase3(RoomInventory inventory) {
         System.out.println("\n===== UC3: INVENTORY =====");
 
-        RoomInventory inventory = new RoomInventory();
         inventory.displayInventory();
 
         System.out.println("\nUpdating Inventory...");
@@ -120,9 +131,38 @@ public class BookMyStay {
         inventory.displayInventory();
     }
 
+    // =======================
+    // UC5: BOOKING REQUEST QUEUE (FIFO)
+    // =======================
+    public static void useCase5() {
+
+        System.out.println("\n===== UC5: BOOKING REQUEST QUEUE =====");
+
+        Queue<Reservation> bookingQueue = new LinkedList<>();
+
+        // Incoming requests
+        bookingQueue.add(new Reservation("Alice", "Single Room"));
+        bookingQueue.add(new Reservation("Bob", "Suite Room"));
+        bookingQueue.add(new Reservation("Charlie", "Double Room"));
+
+        // Process in FIFO order
+        System.out.println("Processing Requests in Order:");
+
+        while (!bookingQueue.isEmpty()) {
+            System.out.println("Processing -> " + bookingQueue.poll());
+        }
+    }
+
+    // MAIN
     public static void main(String[] args) {
+
         useCase1();
         useCase2();
-        useCase3();
+
+        RoomInventory inventory = new RoomInventory();
+
+        useCase3(inventory);
+
+        useCase5(); // 👈 NEW UC5 ADDED
     }
 }
