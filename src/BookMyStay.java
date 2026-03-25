@@ -1,37 +1,105 @@
 /**
  * Book My Stay App
- *
- * This class represents the entry point of the Hotel Booking Management System.
- * It demonstrates how a Java application starts execution and prints a welcome
- * message to the console.
- *
- * The program highlights basic Java concepts such as:
- * - Class structure
- * - main() method as the application entry point
- * - Console output using System.out.println()
- * - JavaDoc documentation
- *
- * @author Aayati
- * @version 1.0
+ * Combined Use Cases Implementation
+ * File: BookMyStay.java
  */
 
-public class BookMyStayApp {
+// =======================
+// ABSTRACT ROOM (UC2)
+// =======================
+abstract class Room {
+    protected String roomType;
+    protected int price;
 
-    /**
-     * Main method - Entry point of the application.
-     * The JVM starts execution from this method.
-     *
-     * @param args Command-line arguments
-     */
+    public Room(String roomType, int price) {
+        this.roomType = roomType;
+        this.price = price;
+    }
+
+    public abstract void displayDetails();
+}
+
+// =======================
+// ROOM TYPES (UC2)
+// =======================
+class SingleRoom extends Room {
+    public SingleRoom() {
+        super("Single Room", 2000);
+    }
+
+    public void displayDetails() {
+        System.out.println(roomType + " | Price: " + price);
+    }
+}
+
+class DoubleRoom extends Room {
+    public DoubleRoom() {
+        super("Double Room", 3500);
+    }
+
+    public void displayDetails() {
+        System.out.println(roomType + " | Price: " + price);
+    }
+}
+
+class SuiteRoom extends Room {
+    public SuiteRoom() {
+        super("Suite Room", 6000);
+    }
+
+    public void displayDetails() {
+        System.out.println(roomType + " | Price: " + price);
+    }
+}
+
+// =======================
+// MAIN APPLICATION
+// =======================
+public class BookMyStay {
+
+    // =======================
+    // USE CASE 1
+    // =======================
+    public static void useCase1() {
+        System.out.println("=================================");
+        System.out.println("      Book My Stay System        ");
+        System.out.println("=================================");
+        System.out.println("Application Started Successfully\n");
+    }
+
+    // =======================
+    // USE CASE 2
+    // =======================
+    public static void useCase2() {
+
+        System.out.println("===== USE CASE 2: ROOM TYPES =====");
+
+        Room single = new SingleRoom();
+        Room doubleRoom = new DoubleRoom();
+        Room suite = new SuiteRoom();
+
+        int singleAvailable = 5;
+        int doubleAvailable = 3;
+        int suiteAvailable = 2;
+
+        single.displayDetails();
+        System.out.println("Available: " + singleAvailable);
+
+        doubleRoom.displayDetails();
+        System.out.println("Available: " + doubleAvailable);
+
+        suite.displayDetails();
+        System.out.println("Available: " + suiteAvailable);
+
+        System.out.println();
+    }
+
+    // =======================
+    // MAIN METHOD
+    // =======================
     public static void main(String[] args) {
 
-        System.out.println("=================================");
-        System.out.println("      Welcome to Book My Stay    ");
-        System.out.println("   Hotel Booking System v1.0     ");
-        System.out.println("=================================");
-
-        System.out.println("Application started successfully.");
-
-        System.out.println("Thank you for using Book My Stay!");
+        useCase1();  // UC1
+        useCase2();  // UC2
     }
 }
