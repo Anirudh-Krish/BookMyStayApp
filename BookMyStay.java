@@ -1,11 +1,12 @@
+import java.util.HashMap;
+
 /**
  * Book My Stay App
- * Combined Use Cases Implementation
- * File: BookMyStay.java
+ * Combined Use Cases 1, 2, 3
  */
 
 // =======================
-// ABSTRACT ROOM (UC2)
+// UC2: ROOM MODEL
 // =======================
 abstract class Room {
     protected String roomType;
@@ -19,9 +20,6 @@ abstract class Room {
     public abstract void displayDetails();
 }
 
-// =======================
-// ROOM TYPES (UC2)
-// =======================
 class SingleRoom extends Room {
     public SingleRoom() {
         super("Single Room", 2000);
@@ -53,53 +51,78 @@ class SuiteRoom extends Room {
 }
 
 // =======================
-// MAIN APPLICATION
+// UC3: INVENTORY SYSTEM
+// =======================
+class RoomInventory {
+
+    private HashMap<String, Integer> inventory;
+
+    public RoomInventory() {
+        inventory = new HashMap<>();
+        inventory.put("Single Room", 5);
+        inventory.put("Double Room", 3);
+        inventory.put("Suite Room", 2);
+    }
+
+    public int getAvailability(String roomType) {
+        return inventory.getOrDefault(roomType, 0);
+    }
+
+    public void updateAvailability(String roomType, int count) {
+        inventory.put(roomType, count);
+    }
+
+    public void displayInventory() {
+        System.out.println("\n===== ROOM INVENTORY =====");
+        for (String key : inventory.keySet()) {
+            System.out.println(key + " -> " + inventory.get(key));
+        }
+    }
+}
+
+// =======================
+// MAIN CLASS (UC1 ENTRY POINT)
 // =======================
 public class BookMyStay {
 
-    // =======================
-    // USE CASE 1
-    // =======================
+    // UC1
     public static void useCase1() {
         System.out.println("=================================");
-        System.out.println("      Book My Stay System        ");
+        System.out.println("      BOOK MY STAY APP           ");
         System.out.println("=================================");
-        System.out.println("Application Started Successfully\n");
+        System.out.println("System Started Successfully\n");
     }
 
-    // =======================
-    // USE CASE 2
-    // =======================
+    // UC2
     public static void useCase2() {
+        System.out.println("===== UC2: ROOM TYPES =====");
 
-        System.out.println("===== USE CASE 2: ROOM TYPES =====");
+        Room s = new SingleRoom();
+        Room d = new DoubleRoom();
+        Room su = new SuiteRoom();
 
-        Room single = new SingleRoom();
-        Room doubleRoom = new DoubleRoom();
-        Room suite = new SuiteRoom();
-
-        int singleAvailable = 5;
-        int doubleAvailable = 3;
-        int suiteAvailable = 2;
-
-        single.displayDetails();
-        System.out.println("Available: " + singleAvailable);
-
-        doubleRoom.displayDetails();
-        System.out.println("Available: " + doubleAvailable);
-
-        suite.displayDetails();
-        System.out.println("Available: " + suiteAvailable);
-
-        System.out.println();
+        s.displayDetails();
+        d.displayDetails();
+        su.displayDetails();
     }
 
-    // =======================
-    // MAIN METHOD
-    // =======================
-    public static void main(String[] args) {
+    // UC3
+    public static void useCase3() {
+        System.out.println("\n===== UC3: INVENTORY =====");
 
-        useCase1();  // UC1
-        useCase2();  // UC2
+        RoomInventory inventory = new RoomInventory();
+        inventory.displayInventory();
+
+        System.out.println("\nUpdating Inventory...");
+        inventory.updateAvailability("Single Room", 4);
+        inventory.updateAvailability("Suite Room", 1);
+
+        inventory.displayInventory();
+    }
+
+    public static void main(String[] args) {
+        useCase1();
+        useCase2();
+        useCase3();
     }
 }
